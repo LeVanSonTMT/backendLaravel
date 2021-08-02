@@ -50,8 +50,8 @@ class SkillOfStaffController extends Controller
 
     public function edit($id)
     {
-        $d = skillOfStaff::join('users', 'users.id', '=' ,'skillofstaff.id_user')->select('id_user','email','phone_number',
-        'name','programming_skills','language_skills','degree')->where('skillofstaff.id','=',$id)->get()->toArray();
+        $d = skillOfStaff::join('users', 'users.id', '=' ,'skillOfStaff.id_user')->select('id_user','email','phone_number',
+        'name','programming_skills','language_skills','degree')->where('skillOfStaff.id','=',$id)->get()->toArray();
 
         $PS = programming_skill::select('id','namePS')->get()->toArray();
         $LS = language_skill::select('id','nameLS')->get()->toArray();
@@ -75,7 +75,7 @@ class SkillOfStaffController extends Controller
     }
     public function show()
     {
-        $d = skillOfStaff::join('users', 'users.id', '=' ,'skillofstaff.id_user')->select('skillofstaff.id','id_user',
+        $d = skillOfStaff::join('users', 'users.id', '=' ,'skillOfStaff.id_user')->select('skillOfStaff.id','id_user',
         'name','programming_skills','language_skills','degree')->get()->toArray();
 
         $PS = programming_skill::select('namePS as name')->get()->toArray();
@@ -88,7 +88,7 @@ class SkillOfStaffController extends Controller
 
     public function searchSkill(Request $request)
     {
-        $d = skillOfStaff::join('users', 'users.id', '=' ,'skillofstaff.id_user')->select('skillofstaff.id','id_user',
+        $d = skillOfStaff::join('users', 'users.id', '=' ,'skillOfStaff.id_user')->select('skillOfStaff.id','id_user',
         'name','programming_skills','language_skills','degree')->where('programming_skills',
         'LIKE','%'.$request->keyword.'%')->orWhere('language_skills',
         'LIKE','%'.$request->keyword.'%')->get()->toArray();
