@@ -24,8 +24,8 @@ class SkillOfStaffController extends Controller
             return response()->json($kt);
         }
         else{
-            $PS = programmingSkill::select('id','namePS')->get()->toArray();
-            $LS = languageSkill::select('id','nameLS')->get()->toArray();
+            $PS = programming_skill::select('id','namePS')->get()->toArray();
+            $LS = language_skill::select('id','nameLS')->get()->toArray();
             $data = [$PS,$LS];
             return response()->json($data);
         }
@@ -53,8 +53,8 @@ class SkillOfStaffController extends Controller
         $d = skillOfStaff::join('users', 'users.id', '=' ,'skillOfStaff.id_user')->select('id_user','email','phone_number',
         'name','programming_skills','language_skills','degree')->where('skillOfStaff.id','=',$id)->get()->toArray();
 
-        $PS = programmingSkill::select('id','namePS')->get()->toArray();
-        $LS = languageSkill::select('id','nameLS')->get()->toArray();
+        $PS = programming_skill::select('id','namePS')->get()->toArray();
+        $LS = language_skill::select('id','nameLS')->get()->toArray();
         $data = [$d, $PS, $LS];
 
         return response()->json($data);
@@ -78,8 +78,8 @@ class SkillOfStaffController extends Controller
         $d = skillOfStaff::join('users', 'users.id', '=' ,'skillOfStaff.id_user')->select('skillOfStaff.id','id_user',
         'name','programming_skills','language_skills','degree')->get()->toArray();
 
-        $PS = programmingSkill::select('namePS as name')->get()->toArray();
-        $LS = languageSkill::select('nameLS as name')->get()->toArray();
+        $PS = programming_skill::select('namePS as name')->get()->toArray();
+        $LS = language_skill::select('nameLS as name')->get()->toArray();
         $data = [$d, $PS, $LS];
 
         return response()->json($data);
@@ -93,8 +93,8 @@ class SkillOfStaffController extends Controller
         'LIKE','%'.$request->keyword.'%')->orWhere('language_skills',
         'LIKE','%'.$request->keyword.'%')->get()->toArray();
 
-        $PS = programmingSkill::select('namePS as name')->get()->toArray();
-        $LS = languageSkill::select('nameLS as name')->get()->toArray();
+        $PS = programming_skill::select('namePS as name')->get()->toArray();
+        $LS = language_skill::select('nameLS as name')->get()->toArray();
         $data = [$d, $PS, $LS];
 
         return response()->json($data);
