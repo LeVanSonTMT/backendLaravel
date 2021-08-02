@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class language_skill extends Model
 {
     use HasFactory;
-    protected $table = 'languageskill';
+    protected $table = 'languageSkill';
 
     /**
      * The attributes that are mass assignable.
