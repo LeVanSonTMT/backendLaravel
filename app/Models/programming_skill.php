@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class programming_skill extends Model
 {
     use HasFactory;
-    protected $table = 'programmingskill';
+    protected $table = 'programmingSkill';
 
     /**
      * The attributes that are mass assignable.
