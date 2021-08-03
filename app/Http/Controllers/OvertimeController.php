@@ -129,7 +129,7 @@ class OvertimeController extends Controller
 
 //         $workingtime = User::join('workingtime','workingtime.id_user', '=' ,'users.id')->whereDate('check_out','>=', $req->DayBegin)->whereDate('check_out', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(HOUR(workingtime.check_out - workingtime.check_in)) as TongGio')]);
 
-        $dayOff = User::join('day_off', 'day_off.user_id', '=', 'users.id')->where('status','1')->whereDate('start_off','>=', $req->DayBegin)->whereDate('start_off', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id','asc')->get(['users.id', DB::raw('SUM(day_off.num_off) as sum_off')]);
+//         $dayOff = User::join('day_off', 'day_off.user_id', '=', 'users.id')->where('status','1')->whereDate('start_off','>=', $req->DayBegin)->whereDate('start_off', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id','asc')->get(['users.id', DB::raw('SUM(day_off.num_off) as sum_off')]);
 
         foreach ($data as $key => $v) {
             $v->sumT = 0;
@@ -169,14 +169,14 @@ class OvertimeController extends Controller
 //                     }
 //                 }
 //             }
-            foreach ($dayOff as $day => $v4) {
-                if($v->id == $v4->id){
-                    if($v4->sum_off){
-                        $v->sumOff = $v4->sum_off;
-                        break;
-                    }
-                }
-            }
+//             foreach ($dayOff as $day => $v4) {
+//                 if($v->id == $v4->id){
+//                     if($v4->sum_off){
+//                         $v->sumOff = $v4->sum_off;
+//                         break;
+//                     }
+//                 }
+//             }
             $v->sumNT = $v->sumT - $v->sumT7 -$v->sumCN;
         }
         return response()->json($data);
