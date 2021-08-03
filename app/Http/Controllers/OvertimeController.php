@@ -123,7 +123,7 @@ class OvertimeController extends Controller
 
         $data0 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(overtime.number) AS sumT')]);
 
-//         $data1 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('DAYOFWEEK(ngayDK)'),'7')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(number) AS sumT7')]);
+        $data1 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('DAYOFWEEK(ngayDK)'),'7')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(number) AS sumT7')]);
 
 //         $data2 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('DAYOFWEEK(ngayDK)'),'1')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(number) AS sumCN')]);
 
@@ -145,14 +145,14 @@ class OvertimeController extends Controller
                     }
                 }
             }
-//             foreach ($data1 as $key1 => $v1) {
-//                 if($v->id == $v1->id){
-//                     if($v1->sumT7){
-//                         $v->sumT7 = $v1->sumT7;
-//                         break;
-//                     }
-//                 }
-//             }
+            foreach ($data1 as $key1 => $v1) {
+                if($v->id == $v1->id){
+                    if($v1->sumT7){
+                        $v->sumT7 = $v1->sumT7;
+                        break;
+                    }
+                }
+            }
 //             foreach ($data2 as $key2 => $v2) {
 //                 if($v->id == $v2->id){
 //                     if($v2->sumCN){
