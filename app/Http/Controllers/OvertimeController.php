@@ -123,13 +123,13 @@ class OvertimeController extends Controller
 
         $data0 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(overtime.number) AS sumT')]);
 
-        $data1 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('DAYOFWEEK(ngayDK)'),'7')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(number) AS sumT7')]);
+//         $data1 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('DAYOFWEEK(ngayDK)'),'7')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(number) AS sumT7')]);
 
-//         $data2 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('DAYOFWEEK(ngayDK)'),'1')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(number) AS sumCN')]);
+        $data2 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('DAYOFWEEK(ngayDK)'),'1')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(number) AS sumCN')]);
 
 //         $workingtime = User::join('workingtime','workingtime.id_user', '=' ,'users.id')->whereDate('check_out','>=', $req->DayBegin)->whereDate('check_out', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(HOUR(workingtime.check_out - workingtime.check_in)) as TongGio')]);
 
-//         $dayOff = User::join('day_off', 'day_off.user_id', '=', 'users.id')->where('status','1')->whereDate('start_off','>=', $req->DayBegin)->whereDate('start_off', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id','asc')->get(['users.id', DB::raw('SUM(day_off.num_off) as sum_off')]);
+        $dayOff = User::join('day_off', 'day_off.user_id', '=', 'users.id')->where('status','1')->whereDate('start_off','>=', $req->DayBegin)->whereDate('start_off', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id','asc')->get(['users.id', DB::raw('SUM(day_off.num_off) as sum_off')]);
 
         foreach ($data as $key => $v) {
             $v->sumT = 0;
@@ -145,22 +145,22 @@ class OvertimeController extends Controller
                     }
                 }
             }
-            foreach ($data1 as $key1 => $v1) {
-                if($v->id == $v1->id){
-                    if($v1->sumT7){
-                        $v->sumT7 = $v1->sumT7;
-                        break;
-                    }
-                }
-            }
-//             foreach ($data2 as $key2 => $v2) {
-//                 if($v->id == $v2->id){
-//                     if($v2->sumCN){
-//                         $v->sumCN = $v2->sumCN;
+//             foreach ($data1 as $key1 => $v1) {
+//                 if($v->id == $v1->id){
+//                     if($v1->sumT7){
+//                         $v->sumT7 = $v1->sumT7;
 //                         break;
 //                     }
 //                 }
 //             }
+            foreach ($data2 as $key2 => $v2) {
+                if($v->id == $v2->id){
+                    if($v2->sumCN){
+                        $v->sumCN = $v2->sumCN;
+                        break;
+                    }
+                }
+            }
 //             foreach ($workingtime as $k => $v3) {
 //                 if($v->id == $v3->id){
 //                     if($v3->TongGio){
@@ -169,14 +169,14 @@ class OvertimeController extends Controller
 //                     }
 //                 }
 //             }
-//             foreach ($dayOff as $day => $v4) {
-//                 if($v->id == $v4->id){
-//                     if($v4->sum_off){
-//                         $v->sumOff = $v4->sum_off;
-//                         break;
-//                     }
-//                 }
-//             }
+            foreach ($dayOff as $day => $v4) {
+                if($v->id == $v4->id){
+                    if($v4->sum_off){
+                        $v->sumOff = $v4->sum_off;
+                        break;
+                    }
+                }
+            }
             $v->sumNT = $v->sumT - $v->sumT7 -$v->sumCN;
         }
         return response()->json($data);
