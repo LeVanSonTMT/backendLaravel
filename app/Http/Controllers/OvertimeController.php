@@ -129,7 +129,7 @@ class OvertimeController extends Controller
 
 //         $data1 = Overtime::leftjoin('users','users.id', '=' ,'overtime.id_user')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('extract(dow from ngayDK)'),'6')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(overtime.number) AS sumT7')]);
 
-        $data2 = Overtime::leftjoin('users','users.id', '=' ,'overtime.id_user')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(overtime.number) AS sumCN')]);
+        $data2 = Overtime::leftjoin('users','users.id', '=' ,'overtime.id_user')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('extract(dow from ngayDK)'),'=','0')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(overtime.number) AS sumCN')]);
 
         
         foreach ($data as $key => $v) {
