@@ -123,9 +123,9 @@ class OvertimeController extends Controller
 
         $data0 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(overtime.number) AS sumT')]);
 
-        $data1 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('(extract(dow from overtime.ngayDK)+1)'),'7')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(overtime.number) AS sumT7')]);
+        $data1 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where('(extract(dow from overtime.ngayDK)+1)','7')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(overtime.number) AS sumT7')]);
 
-        $data2 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where(DB::raw('(extract(dow from overtime.ngayDK)+1)'),'1')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(overtime.number) AS sumCN')]);
+        $data2 = User::join('overtime','overtime.id_user', '=' ,'users.id')->where('status','1')->whereDate('ngayDK','>=', $req->DayBegin)->whereDate('ngayDK', '<=', $req->DayEnd)->where('(extract(dow from overtime.ngayDK)+1)','1')->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM(overtime.number) AS sumCN')]);
        
         $workingtime = User::join('workingtime','workingtime.id_user', '=' ,'users.id')->whereDate('check_out','>=', $req->DayBegin)->whereDate('check_out', '<=', $req->DayEnd)->groupBy('users.id')->orderBy('users.id', 'asc')->get(['users.id', DB::raw('SUM( extract(hour from workingtime.check_out) - extract(hour from workingtime.check_in) ) as TongGio')]);
 
